@@ -1,5 +1,3 @@
-import products
-
 
 class Store:
     def __init__(self, list_of_products):
@@ -38,7 +36,7 @@ class Store:
             for item in shopping_list:
                 product_index, product_quantity = item
                 product = self.list_of_products[product_index]
-                total_price += product.buy(int(product_quantity))
+                total_price += product.buy(product_quantity)
         except TypeError:
             pass
         except IndexError:
