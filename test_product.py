@@ -38,10 +38,10 @@ def test_product_purchase_modifies_quantity_and_returns_right_output():
     assert product.quantity == quantity_before_purchase - 3
 
 
-def test_buying_larger_quantity_than_exists_invokes_exception():
+def test_buying_larger_quantity_than_exists_does_not_raise_exception():
     product = Product("Product5", 10.0, 5)
-    with pytest.raises(Exception):
-        product.buy(10)
+    product.buy(7)
+
 
 
 pytest.main()

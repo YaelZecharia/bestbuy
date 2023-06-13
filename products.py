@@ -69,20 +69,20 @@ class Product:
         Returns:
             float: The total price for the purchased quantity of the product.
         """
-        if quantity > self.quantity:
-            raise ValueError("Quantity is larger than what exists.")
-
-        total_price_for_product = 0
-
-        if self.promotion is not None:
-            total_price_for_product = self.promotion.apply_promotion(self, quantity)
-        else:
-            total_price_for_product = quantity * self.price
-
-        new_quantity = self.quantity - quantity
-        self.set_quantity(new_quantity)
-
-        return float(total_price_for_product)
+        try:
+            if quantity > self.quantity:
+                raise ValueError("Quantity is larger than what exists.")
+            total_price_for_product = 0
+            if self.promotion is not None:
+                total_price_for_product = self.promotion.apply_promotion(self, quantity)
+            else:
+                total_price_for_product = quantity * self.price
+            new_quantity = self.quantity - quantity
+            self.set_quantity(new_quantity)
+            return float(total_price_for_product)
+        except ValueError as error:
+            print(f"Error buying product: {error}")
+            return 0
 
 
 class NonStockedProduct(Product):
@@ -134,9 +134,13 @@ class LimitedProduct(Product):
 
     def buy(self, quantity) -> float:
         """ returns the price of a product, after applying promotions. """
-        if quantity > self.maximum:
-            raise ValueError(f"limited to {self.maximum} per order.")
-        total_price_for_product = quantity * self.price
-        new_quantity = self.quantity - quantity
-        self.set_quantity(new_quantity)
-        return float(total_price_for_product)
+        try:
+            if quantity > self.maximum:
+                raise ValueError(f"limited to {self.maximum} per order.")
+            total_price_for_product = quantity * self.price
+            new_quantity = self.quantity - quantity
+            self.set_quantity(new_quantity)
+            return float(total_price_for_product)
+        except ValueError as error:
+            print(f"Error buying product: {error}")
+            return 0

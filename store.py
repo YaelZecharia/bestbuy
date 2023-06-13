@@ -32,10 +32,11 @@ class Store:
     def order(self, shopping_list) -> float:
         """ Takes an order and returns the total price of the order. """
         total_price = 0
+        list_of_active_products = self.get_all_products()  # Get the list of active products
         try:
             for item in shopping_list:
                 product_index, product_quantity = item
-                product = self.list_of_products[product_index]
+                product = list_of_active_products[product_index]
                 total_price += product.buy(product_quantity)
         except TypeError:
             pass
